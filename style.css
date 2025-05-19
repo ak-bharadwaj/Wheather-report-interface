@@ -1,0 +1,66 @@
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #000; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+}
+
+#neonCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none; 
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  padding: 30px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 0 15px #0ff,
+    0 0 40px #0ff inset;
+}
+
+input, button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+input {
+  width: 70%;
+  max-width: 250px;
+}
+
+button {
+  background: #0ff;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #4ff;
+}
+
+#weatherResult {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #0ff;
+}
