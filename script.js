@@ -7,6 +7,8 @@ async function getWeather() {
     return;
   }
 
+
+⁵
   const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(city)}`;
 
   try {
