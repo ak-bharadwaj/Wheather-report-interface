@@ -1,3 +1,4 @@
+
 const canvas = document.getElementById('neonCanvas');
 const ctx = canvas.getContext('2d');
 
