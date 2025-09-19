@@ -1,18 +1,17 @@
 async function getWeather() {
   const city = document.getElementById("cityInput").value.trim();
-  const apiKey = 'ec9e6d1b62c823ba1bfb8131ff3f09de'; 
+  const apiKey = 'ec9e6d1b62c823ba1bfb8131ff3f09de'; // Use your real API key
 
   if (!city) {
     document.getElementById("weatherResult").innerText = "Please enter a city name.";
     return;
   }
 
-
-⁵
   const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(city)}`;
 
   try {
     const response = await fetch(url);
+    if (!response.ok) throw new Error('Network response not ok');
     const data = await response.json();
 
     if (data.error) {
@@ -20,19 +19,14 @@ async function getWeather() {
       return;
     }
 
-    const temp = data.current.temp_c;
-    const condition = data.current.condition.text;
-    const icon = data.current.condition.icon;
-    const wind = data.current.wind_kph;
-    const humidity = data.current.humidity;
-
+    const { temp_c, condition, wind_kph, humidity } = data.current;
     document.getElementById("weatherResult").innerHTML = `
       <p><strong>City:</strong> ${data.location.name}</p>
-      <p><strong>Temperature:</strong> ${temp} °C</p>
-      <p><strong>Condition:</strong> ${condition}</p>
-      <p><strong>Wind Speed:</strong> ${wind} kph</p>
+      <p><strong>Temperature:</strong> ${temp_c} °C</p>
+      <p><strong>Condition:</strong> ${condition.text}</p>
+      <p><strong>Wind Speed:</strong> ${wind_kph} kph</p>
       <p><strong>Humidity:</strong> ${humidity}%</p>
-      <img src="https:${icon}" alt="${condition}">
+      <img src="https:${condition.icon}" alt="${condition.text}">
     `;
   } catch (error) {
     console.error(error);
