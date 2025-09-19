@@ -1,35 +1,32 @@
+const apiKey = 'ec9e6d1b62c823ba1bfb8131ff3f09de'; // Replace with your key
 async function getWeather() {
   const city = document.getElementById("cityInput").value.trim();
-  const apiKey = 'ec9e6d1b62c823ba1bfb8131ff3f09de'; // Use your real API key
-
   if (!city) {
     document.getElementById("weatherResult").innerText = "Please enter a city name.";
     return;
   }
 
-  const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(city)}`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
 
   try {
     const response = await fetch(url);
-    if (!response.ok) throw new Error('Network response not ok');
+    if (!response.ok) throw new Error("City not found");
     const data = await response.json();
 
-    if (data.error) {
-      document.getElementById("weatherResult").innerText = data.error.message;
-      return;
-    }
+    const { temp, humidity } = data.main;
+    const condition = data.weather[0].main;
+    const icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+    const wind = data.wind.speed;
 
-    const { temp_c, condition, wind_kph, humidity } = data.current;
     document.getElementById("weatherResult").innerHTML = `
-      <p><strong>City:</strong> ${data.location.name}</p>
-      <p><strong>Temperature:</strong> ${temp_c} °C</p>
-      <p><strong>Condition:</strong> ${condition.text}</p>
-      <p><strong>Wind Speed:</strong> ${wind_kph} kph</p>
+      <p><strong>City:</strong> ${data.name}</p>
+      <p><strong>Temperature:</strong> ${temp} °C</p>
+      <p><strong>Condition:</strong> ${condition}</p>
+      <p><strong>Wind Speed:</strong> ${wind} m/s</p>
       <p><strong>Humidity:</strong> ${humidity}%</p>
-      <img src="https:${condition.icon}" alt="${condition.text}">
+      <img src="${icon}" alt="${condition}">
     `;
   } catch (error) {
-    console.error(error);
-    document.getElementById("weatherResult").innerText = "Error fetching data.";
+    document.getElementById("weatherResult").innerText = error.message;
   }
 }
